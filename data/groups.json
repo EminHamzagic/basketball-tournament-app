@@ -55,14 +55,14 @@
       "FIBARanking": 4
     },
     {
-      "Team": "Južni Sudan",
-      "ISOCode": "SSD",
-      "FIBARanking": 34
-    },
-    {
       "Team": "Puerto Riko",
       "ISOCode": "PRI",
       "FIBARanking": 16
+    },
+    {
+      "Team": "Južni Sudan",
+      "ISOCode": "SSD",
+      "FIBARanking": 34
     }
   ]
 }
