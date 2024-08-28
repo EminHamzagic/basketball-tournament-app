@@ -40,6 +40,7 @@ for (let key in groups)
 let groupFinalResults = [];
 let order = [0, 5, 1, 4, 2, 3];
 let groupName = ["A", "B", "C"];
+let gamesPlayed = [];
 
 //Dobijanje informacija o mecevima i ispisivanje utakmica u grupnoj fazi po kolima u svakoj grupi
 for (let key in groups) {
@@ -49,8 +50,10 @@ for (let key in groups) {
   let kolo = 1;
   for (let i = 0; i < 6; i += 2) {
     console.log(`\t${kolo}. Kolo`);
-    console.log("\t" + res[1][order[i]]);
-    console.log("\t" + res[1][order[i + 1]]);
+    console.log("\t\t" + res[1][order[i]]);
+    console.log("\t\t" + res[1][order[i + 1]]);
+    gamesPlayed.push(res[1][order[i]]);
+    gamesPlayed.push(res[1][order[i + 1]]);
     kolo++;
   }
   groupFinalResults.push(res[0]);
@@ -69,6 +72,7 @@ for (let j = 0; j < groupFinalResults.length; j++) {
   });
 }
 
+//Sortiranje timpova
 let teamRanking = [];
 for (let i = 0; i < 3; i++) {
   let temp = [];
@@ -80,7 +84,68 @@ for (let i = 0; i < 3; i++) {
 }
 teamRanking.pop();
 
-console.log("Ekipe koje prolaze dalje se sledece:");
+//Ispisivanje timova koji idu dalje
+console.log("\nEkipe koje prolaze dalje se sledece:");
 teamRanking.forEach((team, i) => {
   console.log(`\t${i + 1}. ${team.Team}`);
 });
+
+let sesiri = {
+  D: [],
+  E: [],
+  F: [],
+  G: [],
+};
+
+//Formiranje sesira
+let sIndex = 0;
+for (let key in sesiri) {
+  sesiri[key].push(teamRanking[sIndex]);
+  sesiri[key].push(teamRanking[sIndex + 1]);
+  sIndex += 2;
+}
+
+//Ispisivanje sastava sesira
+console.log("\nSesiri:");
+for (let key in sesiri) {
+  console.log(`\tSesir ${key}`);
+  sesiri[key].forEach((team) => {
+    console.log(`\t\t${team.Team}`);
+  });
+}
+
+let quarters = {
+  first: [[], []],
+  second: [[], []],
+};
+
+//Uparivanje timova za cetvrt finale
+if (
+  !gamesPlayed.some((str) =>
+    str.includes(sesiri["D"][0].Team + " - " + sesiri["G"][0].Team)
+  ) &&
+  !gamesPlayed.some((str) =>
+    str.includes(sesiri["D"][1].Team + " - " + sesiri["G"][1].Team)
+  )
+) {
+  quarters["first"][0].push(sesiri["D"][0], sesiri["G"][0]);
+  quarters["first"][1].push(sesiri["D"][1], sesiri["G"][1]);
+} else {
+  quarters["first"][0].push(sesiri["D"][0], sesiri["G"][1]);
+  quarters["first"][1].push(sesiri["D"][1], sesiri["G"][0]);
+}
+
+if (
+  !gamesPlayed.some((str) =>
+    str.includes(sesiri["E"][0].Team + " - " + sesiri["F"][0].Team)
+  ) &&
+  !gamesPlayed.some((str) =>
+    str.includes(sesiri["E"][1].Team + " - " + sesiri["F"][1].Team)
+  )
+) {
+  quarters["second"][0].push(sesiri["E"][0], sesiri["F"][0]);
+  quarters["second"][1].push(sesiri["E"][1], sesiri["F"][1]);
+} else {
+  quarters["second"][0].push(sesiri["E"][0], sesiri["F"][1]);
+  quarters["second"][1].push(sesiri["E"][1], sesiri["F"][0]);
+}

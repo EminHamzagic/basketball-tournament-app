@@ -31,7 +31,7 @@ export default function simulateGroupMatches(teams, grp) {
           (points2 - 25);
       }
       playedMatches.push(
-        `\t${team1.Team} - ${team2.Team} (${points1}:${points2})`
+        `${team1.Team} - ${team2.Team} (${points1}:${points2})`
       );
 
       team1.pointsScored += points1;
