@@ -38,10 +38,15 @@ for (let key in groups)
     );
   });
 
-const groupFinalResults = [];
+//Pomocni niz uz pomoc kojeg se sipisuju utakmice u grupama po kolima
 const order = [0, 5, 1, 4, 2, 3];
-const groupName = ["A", "B", "C"];
+
+const groupFinalResults = [];
+const groupName = [];
 const gamesPlayed = [];
+
+//Dodavanje naziva grupa u niz
+for (let key in groups) groupName.push(key);
 
 //Dobijanje informacija o mecevima i ispisivanje utakmica u grupnoj fazi po kolima u svakoj grupi
 for (let key in groups) {
@@ -61,7 +66,9 @@ for (let key in groups) {
 }
 
 //Ispisivanje konacnog plasmana timova u svim grupama
-console.log("\n\nKonacan plasman u grupama:");
+console.log(
+  "\n\nKonacan plasman u grupama(pobede/porazi/bodovi/dati kosevi/primljeni kosevi/kos razlika):"
+);
 for (let j = 0; j < groupFinalResults.length; j++) {
   console.log(`\tGrupa ${groupName[j]}:`);
   groupFinalResults[j].forEach((team, i) => {

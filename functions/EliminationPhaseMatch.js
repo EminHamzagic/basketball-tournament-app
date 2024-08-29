@@ -1,7 +1,7 @@
-function winProbability(rankA, rankB, formA, formB, factor = 20) {
-  const baseProbability = 1 / (1 + Math.pow(10, (rankB - rankA) / factor));
-  const formFactor = 0.05 * (formA - formB);
-  return Math.min(Math.max(baseProbability + formFactor, 0), 1);
+function winProbability(rankA, rankB, formA, formB, factor = 30) {
+  const baseDifference = rankB - rankA + (formB - formA);
+  const baseProbability = 1 / (1 + Math.pow(10, baseDifference / factor));
+  return Math.min(Math.max(baseProbability, 0), 1);
 }
 
 export default function simulateEliminationPhaseMatch(team1, team2) {
