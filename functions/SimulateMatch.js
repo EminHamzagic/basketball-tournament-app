@@ -6,8 +6,8 @@ function winProbability(rankA, rankB, formA, formB, factor = 20) {
 
 export default function simulateMatch(team1, team2) {
   const probTeam1Wins = winProbability(
-    team1.rank,
-    team2.rank,
+    team1.FIBARanking,
+    team2.FIBARanking,
     team1.form,
     team2.form
   );
