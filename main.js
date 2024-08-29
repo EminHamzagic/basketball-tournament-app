@@ -1,6 +1,7 @@
 import calculateInitialForm from "./functions/InitalForms.js";
 import simulateGroupMatches from "./functions/GroupStage.js";
 import setTeamOrder from "./functions/SetOrder.js";
+import simulateEliminationPhaseMatch from "./functions/EliminationPhaseMatch.js";
 import fs from "fs";
 
 //Dobavljanje podataka iz json fajlova
@@ -12,7 +13,7 @@ const exibitionsStr = await fs.promises.readFile(
 var groups = JSON.parse(groupsStr);
 const exibitions = JSON.parse(exibitionsStr);
 //Deklaracija niza koji sadrzi sve timove
-var teams = [];
+const teams = [];
 
 //Dodavanje atributa forma timovima
 for (let key in groups)
@@ -37,10 +38,10 @@ for (let key in groups)
     );
   });
 
-let groupFinalResults = [];
-let order = [0, 5, 1, 4, 2, 3];
-let groupName = ["A", "B", "C"];
-let gamesPlayed = [];
+const groupFinalResults = [];
+const order = [0, 5, 1, 4, 2, 3];
+const groupName = ["A", "B", "C"];
+const gamesPlayed = [];
 
 //Dobijanje informacija o mecevima i ispisivanje utakmica u grupnoj fazi po kolima u svakoj grupi
 for (let key in groups) {
@@ -90,7 +91,7 @@ teamRanking.forEach((team, i) => {
   console.log(`\t${i + 1}. ${team.Team}`);
 });
 
-let sesiri = {
+const sesiri = {
   D: [],
   E: [],
   F: [],
@@ -114,7 +115,7 @@ for (let key in sesiri) {
   });
 }
 
-let quarters = {
+const quarters = {
   first: [[], []],
   second: [[], []],
 };
@@ -149,3 +150,55 @@ if (
   quarters["second"][0].push(sesiri["E"][0], sesiri["F"][1]);
   quarters["second"][1].push(sesiri["E"][1], sesiri["F"][0]);
 }
+
+const halfFinals = {
+  first: [],
+  second: [],
+};
+
+//Igranje utakmica cetvrt finala
+console.log("\nCetvrtfinale:");
+for (let key in quarters) {
+  quarters[key].forEach((half, i) => {
+    const result = simulateEliminationPhaseMatch(half[0], half[1]);
+    halfFinals[key].push(result[0]);
+    console.log(result[1]);
+  });
+}
+
+const finals = [];
+const thirdPlaceMatch = [];
+
+//Igranje utakmica polufinala
+console.log("\nPolufinale:");
+for (let key in halfFinals) {
+  const result = simulateEliminationPhaseMatch(
+    halfFinals[key][0],
+    halfFinals[key][1]
+  );
+  finals.push(result[0]);
+  thirdPlaceMatch.push(result[2]);
+  console.log(result[1]);
+}
+
+const ranking = [];
+//Igranje utakmice za trece mesto
+console.log("\nUtakmica za trece mesto:");
+const tpRes = simulateEliminationPhaseMatch(
+  thirdPlaceMatch[0],
+  thirdPlaceMatch[1]
+);
+console.log(tpRes[1]);
+
+//Igranje finala
+console.log("\nFinale:");
+const fRes = simulateEliminationPhaseMatch(finals[0], finals[1]);
+console.log(fRes[1]);
+
+ranking.push(fRes[0], fRes[2], tpRes[0]);
+
+//Ispisivanje medalja
+console.log("\nMedalje;");
+ranking.forEach((team, i) => {
+  console.log(`\t${i + 1}. ${team.Team}`);
+});

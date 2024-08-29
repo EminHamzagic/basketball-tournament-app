@@ -20,14 +20,14 @@ export default function simulateGroupMatches(teams, grp) {
       let points1 = 0;
       let points2 = 0;
       if (winner === team1) {
-        points1 = Math.floor(Math.random() * 80) + 50;
+        points1 = Math.floor(Math.random() * 60) + 70;
         points2 =
-          Math.floor(Math.random() * (points1 - (points1 - 26))) +
+          Math.floor(Math.random() * (points1 - (points1 - 25))) +
           (points1 - 25);
       } else {
-        points2 = Math.floor(Math.random() * 80) + 50;
+        points2 = Math.floor(Math.random() * 60) + 70;
         points1 =
-          Math.floor(Math.random() * (points2 - (points2 - 26))) +
+          Math.floor(Math.random() * (points2 - (points2 - 25))) +
           (points2 - 25);
       }
       playedMatches.push(
@@ -42,7 +42,7 @@ export default function simulateGroupMatches(teams, grp) {
       team1.difference += points1 - points2;
       team2.difference += points2 - points1;
 
-      // Ažuriranje forme na osnovu rezultata utakmica
+      // Azuriranje forme na osnovu rezultata utakmica
       const formUpdate1 =
         points1 - points2 + (team2.FIBARanking - team1.FIBARanking) / 100;
       const formUpdate2 =
@@ -65,10 +65,10 @@ export default function simulateGroupMatches(teams, grp) {
     }
   }
 
-  // Sortiranje timova prema pravilima: broj pobeda, razlika u koševima, međusobni duel
+  // Sortiranje timova prema pravilima: broj pobeda, razlika u kosevima, medjusobni duel
   results.sort((a, b) => {
     if (b.points !== a.points) return b.wins - a.wins; // Broj pobeda
-    if (a.difference !== b.difference) return b.difference - a.difference; // Razlika u koševima
+    if (a.difference !== b.difference) return b.difference - a.difference; // Razlika u kosevima
     return b.pointsScored - a.pointsScored; // Ukupan broj postignutih poena
   });
 
